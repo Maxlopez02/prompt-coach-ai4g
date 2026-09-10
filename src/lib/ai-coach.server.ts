@@ -50,8 +50,7 @@ export async function callCoach<T>(args: {
       throw new CoachError("The coach is busy right now. Try again in a moment.", 429);
     if (res.status === 402)
       throw new CoachError("AI credits have run out for this workspace.", 402);
-    if (res.status === 403)
-      throw new CoachError("AI access is blocked for this workspace.", 403);
+    if (res.status === 403) throw new CoachError("AI access is blocked for this workspace.", 403);
     throw new CoachError(`The coach could not respond. ${detail.slice(0, 200)}`, res.status);
   }
 

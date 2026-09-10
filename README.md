@@ -1,41 +1,35 @@
 # Prompt Coach
 
-Build the "Prompt Coach" one-page educational web app for beginner higher-ed students to improve generative AI prompts (SDG 4: Quality Education).
+Prompt Coach is a one-page learning app for beginner college and university students who are learning how to ask generative AI for useful study support. It addresses a concrete problem: a vague prompt can produce generic help, while beginners may not know what information their request is missing.
 
-Core features and requirements:
-1. Inputs: Required learning goal ("What are you trying to learn or make?") and draft prompt textarea ("Paste your draft prompt", max 1,200 chars with live counter). Include "Try an example" button prefilling "Understand Python while loops" and "Help me learn Python."
-2. Analysis with native Lovable AI via server-side edge function (no mock/fake data):
-   - Evaluates 4 dimensions: Goal, Context, Constraints, Output. Each gets status: Clear, Needs work, or Missing (with icon + text), plus a concise explanation.
-   - Feedback groups: "What already works" and "What to improve next".
-   - "Coach's example" with copy button that models better prompting without answering the student's assignment.
-3. Revision & Comparison flow:
-   - "Revise it in your own words" textarea (not pre-filled by coach's example).
-   - "Compare my revision" action calling Lovable AI to compare original vs revision: shows improved dimensions, 1 remaining gap, and 1 next tip.
-   - "Start over" reset action.
-4. Editorial visual design:
-   - Colors: Pale icy background (#F6F8FC), deep ink (#122033), crisp cobalt (#315CFF), coral annotation (#F25F4B), muted rule (#D9E1EF), white (#FFFFFF), success teal (#147D6F).
-   - Typography: Space Grotesk (display), Manrope (body), IBM Plex Mono (utility labels).
-   - Desktop 42% / 58% asymmetric split workspace; mobile stacked interaction order. Signature "Prompt Anatomy" margin-rail visual with subtle staggered reveal (respecting prefers-reduced-motion).
-   - Accessible states (loading "Reading your prompt...", aria-live announcements, disabled button states during request, clear error messaging).
-5. Footer: "About this learning tool" section covering student audience, non-plagiarism/not a homework solver notice, privacy warning, AI fallibility disclaimer, and SDG 4 credit.
+## What it does
 
-This project was built with [Lovable](https://lovable.dev).
+The learner completes a three-stage practice loop:
 
-## Build with Lovable
+1. **Draft** — name a learning goal and write a first prompt.
+2. **Refine** — receive AI feedback on Goal, Context, Constraints and Output, then write a revision in their own words.
+3. **Reflect** — compare both drafts, see what became clearer and take away one skill for the next prompt.
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/ac47d0b6-311b-4dbb-9035-d0b198e4fd9c).
+The AI performs a necessary runtime step: it interprets the learner's actual wording and gives contextual feedback and comparison. A fixed checklist could teach the four ingredients, but it could not explain how a specific sentence is clear or missing context. The app coaches the prompt and is instructed not to complete the student's assignment.
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+## SDG 4 — Quality Education
 
-## Development
+The app supports [UN Sustainable Development Goal 4](https://sdgs.un.org/goals/goal4) by giving beginner students guided practice in digital and AI literacy. It does not claim to solve unequal access to education, and its learning effectiveness still needs testing with students.
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+## How it was built
 
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
-```
+The original working product and native server-side AI flow were created in Lovable for the Hackathon 1 tool requirement. Its Lovable project history is preserved. Codex was then used for a later source-code refinement of the interface, responsive behavior, motion, accessibility and validation. The final app remains integrated with Lovable and continues to use the original Lovable AI service.
+
+Run locally with `npm install` and `npm run dev`. The main UI is `src/components/prompt-coach.tsx`; the server functions are in `src/lib/coach.functions.ts` and `src/lib/ai-coach.server.ts`.
+
+## Ethics and limitations
+
+- Prompt text is sent to an AI service for analysis. Learners are warned not to enter personal details, student numbers or confidential coursework. No account or in-app history is provided; this does not imply that the AI provider never retains data.
+- AI feedback can be mistaken, inconsistent or biased. The interface calls it guidance rather than a grade and tells learners to use their own judgment and follow course rules.
+- The app is in English, needs a connected device and internet access, and assumes basic familiarity with AI chat tools. These choices can exclude learners with limited connectivity, assistive technology incompatibilities, lower digital confidence or other language needs.
+- The coach's model prompt is optional and hidden until requested so learners attempt their own revision first. It is a model to learn from, not a finished academic answer.
+- A learner could still misuse the advice to request prohibited work from another AI tool. The app reduces this risk through examples that ask for explanation and practice, plus reminders to disclose AI help where required.
+
+## Verification
+
+The local refinement has automated coverage for validation, feedback, revision, comparison, error recovery, reset and copying. It also has responsive desktop and 390px mobile checks and respects `prefers-reduced-motion`.
