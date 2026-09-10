@@ -291,6 +291,7 @@ export function PromptCoach({ analyze, compare }: CoachServices) {
               <button
                 className="pc-reset"
                 type="button"
+                aria-label="Start over"
                 disabled={busy !== null}
                 onClick={() => setResetOpen(!resetOpen)}
                 aria-expanded={resetOpen}
